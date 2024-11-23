@@ -1,0 +1,30 @@
+.conditional-rendering {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.206);
+  top: 0;
+  left: 0;
+  display: none;
+  z-index: 9999;
+}
+
+.conditional-rendering.open {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.conditional-rendering > .modal {
+  width: 40%;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: white;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.206);
+  direction: rtl;
+}
+
+.conditional-rendering .cant-process {
+  text-align: center;
+  color: red;
+}

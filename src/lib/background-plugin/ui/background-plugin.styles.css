@@ -1,0 +1,34 @@
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  justify-items: center;
+  z-index: 99999;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-box {
+  padding: 20px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  justify-items: center;
+  gap: 10px;
+  row-gap: 10em;
+}
+.modal-box * {
+  margin: 10px 0px;
+}
+
+.background-preview {
+  max-width: 512px;
+}

@@ -3,9 +3,9 @@ import Editors from "./Editor";
 
 function App() {
   return (
-    <div className="w-[20px] h-[20px]">
+    <div className="h-screen w-screen flex justify-center items-center flex-col ">
       Sub-Container
-      <div>
+      <div className="min-h-fit">
         <Editors />
       </div>
     </div>

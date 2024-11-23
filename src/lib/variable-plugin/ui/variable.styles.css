@@ -1,0 +1,66 @@
+.variable-modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  justify-items: center;
+  z-index: 99999;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.variable-modal-box {
+  padding: 20px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  justify-items: center;
+}
+
+.variable-modal-box * {
+  margin: 10px 0px;
+}
+
+.variable-modal-box input {
+  padding: 10px;
+  border-radius: 10px;
+  outline: none;
+  direction: rtl;
+  border: 1px solid #aaa;
+}
+
+.variable-modal-box select.select-box {
+  padding: 10px;
+  border-radius: 10px;
+  width: 100%;
+  direction: rtl;
+  background-color: transparent;
+  border: 2px solid #aaa;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0);
+  cursor: pointer;
+  outline: none;
+  transition: 0.15s ease-in;
+}
+
+.variable-modal-box select:focus {
+  border: 2px solid navy;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+.variable-modal-box .checkbox {
+  display: flex;
+  gap: 5px;
+  direction: rtl;
+}
+
+.variable-modal-box .action-bar {
+  display: flex;
+  gap: 5px;
+}

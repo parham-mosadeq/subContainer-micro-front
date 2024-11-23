@@ -1,0 +1,1 @@
+export type { IVariableType } from './variable-plugin.type'
