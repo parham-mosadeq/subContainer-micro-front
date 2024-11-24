@@ -12,8 +12,10 @@ export default defineConfig({
       filename: "remoteEntry.js",
       exposes: {
         "./Editor": "./src/Editor.tsx",
+        "./EditorMessageBroker": "./src/utils/message-broker/index.ts",
+        "./useToken": "./src/utils/token/index.ts",
       },
-      shared: ["react", "react-dom"],
+      shared: ["react", "react-dom", "rxjs"],
     }),
   ],
   build: {

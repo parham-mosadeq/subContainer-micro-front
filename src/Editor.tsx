@@ -116,49 +116,67 @@ import {
   variablesConstants,
 } from "./lib";
 import { TinyMceEditor, TinyMceEditorProvider } from "@medad-mce/editor";
-
+import messageBroker from "./utils/message-broker";
+import { useEffect, useState } from "react";
 export default function Editors() {
-  return (
-    <div className="w-full h-[600px]">
-      <h1>Editor</h1>
-      <TinyMceEditorProvider
-        plugins={[
-          new BorderPlugin(),
-          new BackgroundPlugin(),
-          new ConditionPlugin(),
-          new FloatingPlugin(),
-          new LayoutsPlugin(),
-          new ListPlugin(),
-          new PaddingPlugin(),
-          new PageNumberPlugin(),
-          new ShapesPlugin(),
-          new TemplatePlugin(),
-          new VariablePlugin(),
-        ]}>
-        <TinyMceEditor
-          apiKey="eonshfcuta9bnde9v48t62iope15appdnqlt2a76lgdpprnd"
-          initialValue={`<div class='line-wrapper'> &nbsp; </div>`}
-          init={{
-            pagebreak_split_block: true,
-            pagebreak_separator:
-              '<div class="page-break" style="page-break-after: always;"></div>',
-            height: "100%",
-            width: "100%",
-            menubar: true,
-            resize: false,
-            forced_root_block: "div",
-            forced_root_block_attrs: { class: "line-wrapper" },
-            toolbar: `${borderConstants.BUTTONS.default} | undo redo | ${backgroundConstants.BUTTONS.default} | ${conditionsConstants.BUTTONS.insert} | ${paddingConstants.BUTTONS.padding} | 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    console.log("Requesting token from Host App...");
+    messageBroker.sendMessage("get_token", (token) => {
+      console.log("Received token:", token);
+      if (token) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    });
+  }, []);
+
+  if (!isLoggedIn) {
+    return <>not logged in</>;
+  } else
+    return (
+      <div className="w-full h-[600px]">
+        <h1>Editor</h1>
+        <TinyMceEditorProvider
+          plugins={[
+            new BorderPlugin(),
+            new BackgroundPlugin(),
+            new ConditionPlugin(),
+            new FloatingPlugin(),
+            new LayoutsPlugin(),
+            new ListPlugin(),
+            new PaddingPlugin(),
+            new PageNumberPlugin(),
+            new ShapesPlugin(),
+            new TemplatePlugin(),
+            new VariablePlugin(),
+          ]}>
+          <TinyMceEditor
+            apiKey="eonshfcuta9bnde9v48t62iope15appdnqlt2a76lgdpprnd"
+            initialValue={`<div class='line-wrapper'> &nbsp; </div>`}
+            init={{
+              pagebreak_split_block: true,
+              pagebreak_separator:
+                '<div class="page-break" style="page-break-after: always;"></div>',
+              height: "100%",
+              width: "100%",
+              menubar: true,
+              resize: false,
+              forced_root_block: "div",
+              forced_root_block_attrs: { class: "line-wrapper" },
+              toolbar: `${borderConstants.BUTTONS.default} | undo redo | ${backgroundConstants.BUTTONS.default} | ${conditionsConstants.BUTTONS.insert} | ${paddingConstants.BUTTONS.padding} | 
             ${floatingConstants.BUTTONS.floating_element_btn} | ${layoutsConstants.BUTTONS.layouts} | ${listConstants.BUTTONS.insert} | 
             ${pageNumberConstants.BUTTONS.pageNumber} | ${pageNumberConstants.BUTTONS.totalPage} | ${shapesConstants.BUTTONS.insert_shape} | ${shapesConstants.COMMANDS.on_insert_shape} 
             | ${templateConstants.BUTTONS.addFooter} | ${templateConstants.BUTTONS.addFooter} | ${variablesConstants.BUTTONS.insert_variable}
             `,
-            fullscreen_native: true,
-            language: "fa",
-            content_css: ["/editor.css"],
-          }}
-        />
-      </TinyMceEditorProvider>
-    </div>
-  );
+              fullscreen_native: true,
+              language: "fa",
+              content_css: ["/editor.css"],
+            }}
+          />
+        </TinyMceEditorProvider>
+      </div>
+    );
 }
