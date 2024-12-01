@@ -20,15 +20,11 @@ export default defineConfig({
   ],
   build: {
     target: "esnext",
-    minify: false,
+    minify: true,
     cssCodeSplit: false,
   },
   preview: {
     host: "localhost",
     port: 5002,
-    strictPort: true,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-    },
   },
 });

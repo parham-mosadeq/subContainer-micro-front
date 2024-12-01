@@ -1,22 +1,18 @@
 import { ReplaySubject } from "rxjs";
-
-export interface IEventMessage {
+interface IEventMessage {
   event: string;
-  callback: (result: unknown) => void;
+  payload: unknown;
+  callback: (response: unknown) => void;
 }
-
-class MessageBroker {
+class MessageService {
   private messageBus = new ReplaySubject<IEventMessage>(1);
-
-  sendMessage(event: string, callback: (result: unknown) => void) {
-    console.log(`Sending message: ${event}`);
-
-    this.messageBus.next({ event, callback });
+  publishMessage(event: string, payload: unknown): Promise<unknown> {
+    return new Promise((resolve) => {
+      this.messageBus.next({ event, payload, callback: resolve });
+    });
   }
-
   subscribeToMessages() {
     return this.messageBus.asObservable();
   }
 }
-
-export default new MessageBroker();
+export default new MessageService();

@@ -118,23 +118,42 @@ import {
 import { TinyMceEditor, TinyMceEditorProvider } from "@medad-mce/editor";
 import messageBroker from "./utils/message-broker";
 import { useEffect, useState } from "react";
+import { map } from "rxjs";
 export default function Editors() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn] = useState(false);
 
   useEffect(() => {
-    console.log("Requesting token from Host App...");
-    messageBroker.sendMessage("get_token", (token) => {
-      console.log("Received token:", token);
-      if (token) {
-        setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false);
-      }
-    });
+    const subscription = messageBroker
+      .subscribeToMessages()
+      .pipe(
+        map((data) => ({
+          ...data,
+          receivedDate: Date.now(),
+        }))
+      )
+      .subscribe((message) => {
+        console.log("Received message: from host app", message);
+      });
+
+    // Cleanup subscription on unmount
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
+  async function login() {
+    console.log("Login function---");
+    await messageBroker.publishMessage("getToken", {});
+    console.log("After navid");
+  }
+
   if (!isLoggedIn) {
-    return <>not logged in</>;
+    return (
+      <>
+        not logged in
+        <button onClick={login}>login</button>
+      </>
+    );
   } else
     return (
       <div className="w-full h-[600px]">
