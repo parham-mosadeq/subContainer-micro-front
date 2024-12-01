@@ -143,8 +143,13 @@ export default function Editors() {
 
   async function login() {
     console.log("Login function---");
-    await messageBroker.publishMessage("getToken", {});
-    console.log("After navid");
+    const test = messageBroker
+      .publishMessage("getToken", {})
+      .then((res) => {
+        console.log("res", res);
+      })
+      .catch((err) => console.log("error", err));
+    console.log("After navid", test);
   }
 
   if (!isLoggedIn) {

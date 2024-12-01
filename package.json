@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port 5002 --strictPort",
+    "dev": "tsc -b && vite build && vite --port 5002 --strictPort",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview --port 5002 --strictPort"
