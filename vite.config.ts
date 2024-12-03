@@ -13,7 +13,8 @@ export default defineConfig({
       exposes: {
         "./Editor": "./src/Editor.tsx",
         "./EditorMessageBroker": "./src/utils/message-broker/index.ts",
-        "./useToken": "./src/utils/token/index.ts",
+        "./HandleSub": "./src/utils/token/getToken.ts",
+        "./NewMb": "./src/utils/newMb/newMb.ts",
       },
       shared: ["react", "react-dom", "rxjs"],
     }),

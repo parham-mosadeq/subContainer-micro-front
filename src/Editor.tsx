@@ -91,6 +91,8 @@ import "./App.css";
 //   );
 // }
 
+import { TinyMceEditor, TinyMceEditorProvider } from "@medad-mce/editor";
+import { useState } from "react";
 import {
   backgroundConstants,
   BackgroundPlugin,
@@ -115,43 +117,22 @@ import {
   VariablePlugin,
   variablesConstants,
 } from "./lib";
-import { TinyMceEditor, TinyMceEditorProvider } from "@medad-mce/editor";
-import messageBroker from "./utils/message-broker";
-import { useEffect, useState } from "react";
-import { map } from "rxjs";
+import messageBroker from "./utils/newMb/newMb";
 export default function Editors() {
   const [isLoggedIn] = useState(false);
 
-  useEffect(() => {
-    const subscription = messageBroker
-      .subscribeToMessages()
-      .pipe(
-        map((data) => ({
-          ...data,
-          receivedDate: Date.now(),
-        }))
-      )
-      .subscribe((message) => {
-        console.log("Received message: from host app", message);
+  async function login() {
+    try {
+      const response = await messageBroker.publish({
+        type: "getToken",
+        payload: { name: "remote app req" },
       });
 
-    // Cleanup subscription on unmount
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, []);
-
-  async function login() {
-    console.log("Login function---");
-    const test = messageBroker
-      .publishMessage("getToken", {})
-      .then((res) => {
-        console.log("res", res);
-      })
-      .catch((err) => console.log("error", err));
-    console.log("After navid", test);
+      console.log("login successful:", response);
+    } catch (error) {
+      console.error("login failed:", error);
+    }
   }
-
   if (!isLoggedIn) {
     return (
       <>
