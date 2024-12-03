@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./App.css";
 // import { Editor } from "@tinymce/tinymce-react";
 
@@ -91,6 +92,8 @@ import "./App.css";
 //   );
 // }
 
+import { TinyMceEditor, TinyMceEditorProvider } from "@medad-mce/editor";
+import { Observable } from "windowed-observable";
 import {
   backgroundConstants,
   BackgroundPlugin,
@@ -115,9 +118,52 @@ import {
   VariablePlugin,
   variablesConstants,
 } from "./lib";
-import { TinyMceEditor, TinyMceEditorProvider } from "@medad-mce/editor";
 
 export default function Editors() {
+  const [isLoggedIn, setIsLoggedIn] = useState({
+    access: false,
+    token: "",
+  });
+  const observable = new Observable("auth");
+
+  const loginUser = (event: "gotToken" | "notAllowed") => {
+    if (event === "gotToken") {
+      setIsLoggedIn({
+        access: true,
+        token: event,
+      });
+    } else {
+      setIsLoggedIn({
+        access: false,
+        token: event,
+      });
+    }
+  };
+  const handleLogin = () => {
+    observable.publish({ event: "notAllowed", loginUser });
+  };
+
+  if (!isLoggedIn.access && !isLoggedIn.token) {
+    return (
+      <button
+        onClick={handleLogin}
+        className="bg-blue-500 text-white px-5 py-3">
+        Login
+      </button>
+    );
+  }
+
+  if (!isLoggedIn.access && isLoggedIn.token) {
+    return (
+      <button
+        disabled
+        onClick={handleLogin}
+        className="bg-red-800 text-white px-5 py-3">
+        Not Allowed
+      </button>
+    );
+  }
+
   return (
     <div className="w-full h-[600px]">
       <h1>Editor</h1>
